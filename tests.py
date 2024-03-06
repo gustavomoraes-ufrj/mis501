@@ -19,41 +19,41 @@ def test_validate_credentials(monkeypatch, capsys):
 
     # Test invalid mobile number
     invalid_mobile_numbers = [
-        "12345",    # Too short
-        "1234567890a"  # Contains non-digit characters
+        ("12345","Password$1"),    # Too short
+        ("1234567890a","Password$1")  # Contains non-digit characters
     ]
 
-    for mobile_number in invalid_mobile_numbers:
-        monkeypatch.setattr('builtins.input', lambda _: mobile_number)
-        monkeypatch.setattr('builtins.input', lambda _: "Password$1")
+    for mobile_number, password in invalid_mobile_numbers:
+        inputs=[mobile_number,password]
+        monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))
         validate_credentials()
         captured = capsys.readouterr()
         assert captured.out.strip() == "Invalid credentials"
 
     # Test invalid password
     invalid_passwords = [
-        "Pwd$1",            # Too short
-        "Abcdefg$",         # Missing digit at the end
-        "Abcdefghijkl$"     # Too long
+        ("1234567890","Pwd$1"),            # Too short
+        ("1234567890","Abcdefg$"),         # Missing digit at the end
+        ("1234567890","Abcdefghijkl$")     # Too long
     ]
 
-    for password in invalid_passwords:
-        monkeypatch.setattr('builtins.input', lambda _: "1234567890")
-        monkeypatch.setattr('builtins.input', lambda _: password)
+    for mobile_number, password in invalid_passwords:
+        inputs=[mobile_number,password]
+        monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))
         validate_credentials()
         captured = capsys.readouterr()
         assert captured.out.strip() == "Invalid credentials"
 
     # Test invalid special character
-    monkeypatch.setattr('builtins.input', lambda _: "1234567890")
-    monkeypatch.setattr('builtins.input', lambda _: "Password1")  # Missing special character
+    inputs=["1234567890","Password1"]
+    monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))  # Missing special character
     validate_credentials()
     captured = capsys.readouterr()
     assert captured.out.strip() == "Invalid credentials"
 
     # Test invalid digit at the end
-    monkeypatch.setattr('builtins.input', lambda _: "1234567890")
-    monkeypatch.setattr('builtins.input', lambda _: "Abc@defg")  # Missing digit at the end
+    inputs=["1234567890","Abc@defg"]
+    monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0)) # Missing digit at the end
     validate_credentials()
     captured = capsys.readouterr()
     assert captured.out.strip() == "Invalid credentials"
