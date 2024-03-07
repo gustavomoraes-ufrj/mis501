@@ -239,6 +239,8 @@ def calculateDelivery():
     order_amount = float(input("Enter the amount of the order placed (in AUD): "))
     distance_km = float(input("Enter the distance in kilometers: "))
     
+    delivery_charges = None
+
     # Calculate packaging charges
     if 20 < order_amount <= 35:
         packaging_charge_percentage = 0.10
@@ -264,14 +266,19 @@ def calculateDelivery():
     # Calculate total amount to be paid
     if delivery_charges is not None:
         total_amount = order_amount + packaging_charges + delivery_charges
-        print("\nDelivery Details:")
-        print(f"Delivery to: {full_address}")
-        print(f"Distance: {distance_km} km")
-        print(f"Delivery charges: ${delivery_charges:.2f}")
-        print("\nOrder Details:")
-        print(f"Order amount: ${order_amount:.2f}")
-        print(f"Packaging charges: ${packaging_charges:.2f}")
-        print("\nTotal amount to be paid (including delivery and packaging charges): ${:.2f}".format(total_amount))
+        print("\nDelivery Details:"
+        "\nDelivery to: {}"
+        "\nDistance: {} km"
+        "\nDelivery charges: ${}"
+        "\nOrder Details:"
+        "\nOrder amount: ${}"
+        "\nPackaging charges: ${}"
+        "\nTotal amount to be paid (including delivery and packaging charges): ${}".format(full_address,
+                                                                                           distance_km,
+                                                                                           delivery_charges,
+                                                                                            order_amount,
+                                                                                            packaging_charges,
+                                                                                            round(total_amount,2)))
     else:
         print("No delivery can be done for a distance greater than 12 kilometers.")
 
@@ -290,7 +297,8 @@ def calculateCharges():
     # Input order details
     order_base_cost = float(input("Enter the order base cost (in AUD): "))
     order_type = int(input("Enter the order type (1 for dine in, 2 for pick up, 3 for delivery): "))
-    
+    additional_charges_percentage = 0
+
     # Calculate additional charges based on order type
     if order_type == 1:  # dine in
         additional_charges_percentage = 0.08
@@ -300,6 +308,7 @@ def calculateCharges():
         additional_charges_percentage = 0.10
     else:
         print("Invalid order type!")
+        return
     
     # Calculate total charges
     total_charges = order_base_cost + order_base_cost * additional_charges_percentage
@@ -384,7 +393,9 @@ def calculateIncome():
     print(f"Income Tax (18%): ${income_tax:.2f}")
     print(f"Net Monthly Income: ${net_income:.2f}")
 
-
+    finalList = [position.capitalize(),rounded_hours_worked,gross_income,income_tax,net_income]
+    print(finalList)
+    return finalList
 
 """
 9. Create a program that ask the user to enter user credential signing up a new account. The
