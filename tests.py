@@ -2,17 +2,21 @@ import pytest
 from unittest.mock import patch
 from io import StringIO
 
-from exercs.assessment1 import (validate_credentials,
+from exercs.assessment1 import (validateCredentials,
                                 calculateIncome,
                                 calculateTemperature,
                                 calculateCharges,
-                                calculateDelivery)
+                                calculateDelivery,
+                                calculateChange,
+                                calculateAverageSale,
+                                calculateCapacity,
+                                calculateAge)
 
-def test_validate_credentials(monkeypatch, capsys):
+def test_validateCredentials(monkeypatch, capsys):
     # Test valid credentials
     valid_test_cases = [
-        ("1234567890", "Password$1"),  # Valid mobile number and password
-        ("9876543210", "Abc@1234")     # Another valid mobile number and password
+        ("1234567890", "P@s$word$1"),  # Valid mobile number and password
+        ("9876543210", "Abc@123$4")     # Another valid mobile number and password
     ]
 
     for mobile_number, password in valid_test_cases:
@@ -20,7 +24,7 @@ def test_validate_credentials(monkeypatch, capsys):
         inputs = [mobile_number, password]
         monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))
 
-        validate_credentials()
+        validateCredentials()
         captured = capsys.readouterr()
         assert captured.out.strip() == "Valid credentials"
 
@@ -33,7 +37,7 @@ def test_validate_credentials(monkeypatch, capsys):
     for mobile_number, password in invalid_mobile_numbers:
         inputs=[mobile_number,password]
         monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))
-        validate_credentials()
+        validateCredentials()
         captured = capsys.readouterr()
         assert captured.out.strip() == "Invalid credentials"
 
@@ -47,21 +51,21 @@ def test_validate_credentials(monkeypatch, capsys):
     for mobile_number, password in invalid_passwords:
         inputs=[mobile_number,password]
         monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))
-        validate_credentials()
+        validateCredentials()
         captured = capsys.readouterr()
         assert captured.out.strip() == "Invalid credentials"
 
     # Test invalid special character
     inputs=["1234567890","Password1"]
     monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0))  # Missing special character
-    validate_credentials()
+    validateCredentials()
     captured = capsys.readouterr()
     assert captured.out.strip() == "Invalid credentials"
 
     # Test invalid digit at the end
     inputs=["1234567890","Abc@defg"]
     monkeypatch.setattr('builtins.input', lambda _: inputs.pop(0)) # Missing digit at the end
-    validate_credentials()
+    validateCredentials()
     captured = capsys.readouterr()
     assert captured.out.strip() == "Invalid credentials"
 
@@ -116,3 +120,63 @@ def test_calculateDelivery(user_input, expected_output):
         with patch('builtins.print') as mocked_print:
             calculateDelivery()
             mocked_print.assert_called_with(expected_output)
+
+
+@pytest.mark.parametrize("user_input, expected_output", [
+    (("P001", 200, 10, 160, 4, 100), "Change to be returned to the customer (In Dollars) against Invoice number P001 is: 53.50"),
+    (("P002", 150.25, 0, 150.25, 0, 0), "Change to be returned to the customer (In Dollars) against Invoice number P002 is: 0.00"),
+    (("P003", 300, 50, 250, 5, 50), "Outstanding amount against Invoice number P003 and need to be paid by customer: 13.00"),
+    (("P004", 75, 25, 50, 0, 25), "Outstanding amount against Invoice number P004 and need to be paid by customer: 0.25"),
+    (("P005", 100, 0, 100, 0, 0), "Change to be returned to the customer (In Dollars) against Invoice number P005 is: 0.00"),
+])
+def test_calculateChange(user_input, expected_output):
+
+    with patch('builtins.input', side_effect=user_input):
+        with patch('builtins.print') as mocked_print:
+            calculateChange()
+            mocked_print.assert_called_with(expected_output)
+
+@pytest.mark.parametrize("current_sales, current_visitors, last_sales, last_visitors, expected_output", [
+    ([100, 200, 300], [50, 100, 150], [90, 180, 270], [45, 90, 135], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([100, 200, 300], [50, 100, 150], [110, 220, 330], [55, 110, 165], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([100, 200, 300], [50, 100, 150], [100, 200, 300], [50, 100, 150], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([10, 20, 30], [5, 10, 15], [10, 20, 30], [5, 10, 15], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([10, 20, 30], [5, 10, 15], [20, 40, 60], [10, 20, 30], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([10, 20, 30], [5, 10, 15], [6, 12, 18], [3, 6, 9], "The average per person sale for the current weekend is the same as the last weekend."),
+    ([10, 20, 30], [5, 10, 15], [8, 16, 24], [4, 8, 12], "The average per person sale for the current weekend is the same as the last weekend.")
+])
+def test_calculateAverageSale(current_sales, current_visitors, last_sales, last_visitors, expected_output):
+    with patch('builtins.input', side_effect=current_sales + current_visitors + last_sales + last_visitors):
+        with patch('builtins.print') as mocked_print:
+            calculateAverageSale()
+            mocked_print.assert_called_with(expected_output)
+
+
+@pytest.mark.parametrize("width, length, expected_output", [
+    (200, 300, "The restaurant can accommodate 4 person(s).\n"),
+    (400, 500, "The restaurant can accommodate 15 person(s).\n"),
+    (1000, 1000, "A maximum of 70 persons are allowed.\nThe restaurant can accommodate 70 person(s).\n"),
+])
+def test_calculateCapacity(width, length, expected_output):
+    input_values = f"{width}\n{length}\n"
+
+    with patch("builtins.input", side_effect=input_values.split("\n")), patch("sys.stdout", new_callable=StringIO) as output:
+        calculateCapacity()
+        assert output.getvalue() == expected_output
+
+
+
+@pytest.mark.parametrize("customer_name, customer_birth, customer_city, customer_mobile, customer_email, expected_output", [
+    ("John Doe", "1990", "New York", "123456789", "john.doe@example.com",
+     "\nGreetings, John Doe!\nHere are your details:\n Year of Birth: 1990\n City: New York\n Email: john.doe@example.com\n Mobile: 123456789\n"),
+    ("Alice Smith", "2000", "Los Angeles", "987654321", "alice.smith@example.com",
+     "\nGreetings, Alice Smith!\nHere are your details:\n Year of Birth: 2000\n City: Los Angeles\n Email: alice.smith@example.com\n Mobile: 987654321\n"),
+])
+def test_calculateAge(customer_name, customer_birth, customer_city, customer_mobile, customer_email, expected_output, monkeypatch, capsys):
+    inputs = [customer_name, customer_birth, customer_city, customer_mobile, customer_email]
+    with monkeypatch.context() as m:
+        m.setattr('builtins.input', lambda _: inputs.pop(0))
+        calculateAge()
+        captured = capsys.readouterr()
+        assert captured.out == expected_output

@@ -1,0 +1,7 @@
+
+Greetings, Alice Smith!
+Here are your details:
+ Year of Birth: 2000
+ City: Los Angeles
+ Email: alice.smith@example.com
+ Mobile: 987654321

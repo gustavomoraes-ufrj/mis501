@@ -18,6 +18,7 @@ The application must calculate the customer's age (assume the current year is al
 confirm to the customer with a greeting message by displaying all the details if the customer is more
 than 21 years of age.
 """
+import sys
 
 def calculateAge():
     # Data inputs
@@ -31,12 +32,26 @@ def calculateAge():
     
     # Testing customer's age 
     if current_year - customer_birth >= 21:
+        file_path = 'output.txt'
+
+        # Redirect the output to the file
+        with open(file_path, 'w') as f:
+            f.write("\nGreetings, {}!\n"
+              "Here are your details:\n"
+              " Year of Birth: {}\n"
+              " City: {}\n"
+              " Email: {}\n"
+              " Mobile: {}\n".format(customer_name, 
+               customer_birth,
+               customer_city,
+               customer_email,
+               customer_mobile))
         print("\nGreetings, {}!\n"
               "Here are your details:\n"
               " Year of Birth: {}\n"
               " City: {}\n"
               " Email: {}\n"
-              " Mobile: {} ".format(customer_name, 
+              " Mobile: {}".format(customer_name, 
                customer_birth,
                customer_city,
                customer_email,
@@ -96,7 +111,7 @@ The weekend includes Friday, Saturday, and Sunday.
 # Function to calculate average per person sale
 def calculateAverageSale():
     
-    
+
     # Initialize lists for current and last weekend sales and visitors
     days = ["Friday", "Saturday", "Sunday"]
     current_weekend_sales = []
@@ -106,35 +121,66 @@ def calculateAverageSale():
     
     # Input current weekend's sales and visitors
     print("Enter the sales and visitors for the current weekend:")
-    for day in days:
-        sales = float(input(f"Enter sales for {day}: "))
-        visitors = int(input(f"Enter number of visitors for {day}: "))
-        current_weekend_sales.append(sales)
-        current_weekend_visitors.append(visitors)
     
+    current_sales_friday = float(input("Enter sales for Friday: "))
+    current_sales_saturday = float(input("Enter sales for Saturday: "))
+    current_sales_sunday = float(input("Enter sales for Sunday: "))
+
+    current_weekend_sales.append(current_sales_friday)
+    current_weekend_sales.append(current_sales_saturday)
+    current_weekend_sales.append(current_sales_sunday)
+
+    current_visitors_friday = int(input("Enter number of visitors for Friday: "))
+    current_visitors_saturday = int(input("Enter number of visitors for Saturday: "))
+    current_visitors_sunday = int(input("Enter number of visitors for Sunday: "))
+
+    current_weekend_visitors.append(current_visitors_friday)
+    current_weekend_visitors.append(current_visitors_saturday)
+    current_weekend_visitors.append(current_visitors_sunday)
+
+
     # Input last weekend's sales and visitors
     print("\nEnter the sales and visitors for the last weekend:")
-    for day in days:
-        sales = float(input(f"Enter sales for {day}: "))
-        visitors = int(input(f"Enter number of visitors for {day}: "))
-        last_weekend_sales.append(sales)
-        last_weekend_visitors.append(visitors)
-    
+
+
+    last_sales_friday = float(input("Enter sales for Friday: "))
+    last_sales_saturday = float(input("Enter sales for Saturday: "))
+    last_sales_sunday = float(input("Enter sales for Sunday: "))
+
+    last_weekend_sales.append(last_sales_friday)
+    last_weekend_sales.append(last_sales_saturday)
+    last_weekend_sales.append(last_sales_sunday)
+
+    last_visitors_friday = int(input("Enter number of visitors for Friday: "))
+    last_visitors_saturday = int(input("Enter number of visitors for Saturday: "))
+    last_visitors_sunday = int(input("Enter number of visitors for Sunday: "))
+
+    last_weekend_visitors.append(last_visitors_friday)
+    last_weekend_visitors.append(last_visitors_saturday)
+    last_weekend_visitors.append(last_visitors_sunday)
+
+
     # Calculate total sales and visitors for both weekends
     total_current_sales = sum(current_weekend_sales)
     total_current_visitors = sum(current_weekend_visitors)
     total_last_sales = sum(last_weekend_sales)
     total_last_visitors = sum(last_weekend_visitors)
     
+    average_current_sale = 0
+    average_last_sale = 0
+
     # Calculate average per person sale for both weekends
-    average_current_sale = total_current_sales / total_current_visitors
+    if total_current_visitors > 0: 
+        average_current_sale = total_current_sales / total_current_visitors
     
-    average_last_sale = total_last_sales / total_last_visitors
+    if total_last_visitors > 0:
+        average_last_sale = total_last_sales / total_last_visitors
     
+
     # Output the results
-    print(f"\nCurrent Weekend's Average Per Person Sale: {average_current_sale}")
-    print(f"Last Weekend's Average Per Person Sale: {average_last_sale}")
-    
+    print(f"\nCurrent Weekend's Average Per Person Sale: {average_current_sale}\n")
+    print(f"Last Weekend's Average Per Person Sale: {average_last_sale}\n")
+
     # Compare the results
     if average_current_sale > average_last_sale:
         print("The average per person sale for the current weekend is higher than the last weekend.")
@@ -142,6 +188,7 @@ def calculateAverageSale():
         print("The average per person sale for the current weekend is lower than the last weekend.")
     else:
         print("The average per person sale for the current weekend is the same as the last weekend.")
+
 
 """
 
@@ -170,31 +217,31 @@ def calculateChange():
     # Input invoice details
     invoice_number = input("Invoice Number: ")
     total_invoice_amount = float(input("Total Invoice amount (In Dollars): "))
-    tip_amount = int(input("Amount of Tip (In Cents): "))
+    tip_amount_cents = int(input("Amount of Tip (In Cents): "))
     total_payment_card = float(input("Total Payment received by Card: "))
     service_charge = float(input("Service Charge on Payment made by Card (%): "))
     total_payment_cash = float(input("Total Payment received in Cash (In Dollars): "))
-    
-    # Calculate total payment received
-    total_payment_received = total_payment_card + total_payment_cash
+
+    # Convert to cents
+    total_payment_card_cents = total_payment_card * 100
+    total_payment_cash_cents = total_payment_cash * 100
+
+    # Calculate service charge amount
+    service_charge_amount_cents = (service_charge / 100) * total_payment_card_cents
+
+    # Calculate total amount paid by card including service charge
+    total_amount_paid_by_card_cents = total_payment_card_cents - service_charge_amount_cents
+
+    total_amount_paid_by_cash_cents = total_payment_cash_cents - tip_amount_cents
+
+    # Calculate total amount paid in cents
+    total_payment_received_cents = total_amount_paid_by_card_cents + total_amount_paid_by_cash_cents
     
     # Calculate total invoice amount in cents
     total_invoice_amount_cents = total_invoice_amount * 100
-    
-    # Calculate total amount paid in cents
-    total_payment_received_cents = (total_payment_card + total_payment_cash) * 100
-    
-    # Calculate total amount including tip
-    total_amount_with_tip = total_invoice_amount_cents + tip_amount
-    
-    # Calculate service charge amount in cents
-    service_charge_amount_cents = (service_charge / 100) * total_payment_card * 100
-    
-    # Calculate total amount paid by card including service charge
-    total_amount_paid_by_card = total_payment_card * 100 + service_charge_amount_cents
-    
+
     # Calculate total change to be returned
-    change_to_return_cents = total_payment_received_cents - total_amount_with_tip
+    change_to_return_cents = total_payment_received_cents - total_invoice_amount_cents
     
     # Convert change to be returned to dollars
     change_to_return_dollars = change_to_return_cents / 100
@@ -210,7 +257,7 @@ def calculateChange():
 """
 5. Write the program to provide the user with an amount he/she needs to pay including the delivery
 and packaging charges. The program should ask the user for the following input:
- (3 Mark)
+
 a) His full address
 b) The amount of order placed
 c) The distance in KM between the address provided and the restaurant
@@ -411,7 +458,7 @@ The program should print the output “Valid credentials” if:
 Note: The program should print “invalid credentials” otherwise.
 """
 
-def validate_credentials():
+def validateCredentials():
 
     # Input user credentials
     mobile_number = input("Enter your mobile number: ")
@@ -428,9 +475,15 @@ def validate_credentials():
         return 
     # Check for at least one special character and ending with a digit
     special_chars = ('@','$')
-    if not any(char in special_chars for char in password) or not password[-1].isdigit():
+    # awui
+    if not password[-1].isdigit():
         print("Invalid credentials")
         return 
+
+    if not special_chars[0] in password and not special_chars[1] in password:
+        print("Invalid credentials")
+        return 
+
     print("Valid credentials")
     return 
 
@@ -464,7 +517,7 @@ def main():
     elif program == 8:
         calculateIncome()
     elif program == 9:
-        validate_credentials()
+        validateCredentials()
     else:
         print("Invalid option!")
             
