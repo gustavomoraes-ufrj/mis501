@@ -237,64 +237,59 @@ Based on the input entered by the user the program must calculate and displays t
 effectively.
 """
 
-# Input user details
-full_address = input("Enter your full address: ")
-order_amount = float(input("Enter the amount of the order placed (in AUD): "))
-distance_km = float(input("Enter the distance in kilometers: "))
+# # Input user details
+# full_address = input("Enter your full address: ")
+# order_amount = float(input("Enter the amount of the order placed (in AUD): "))
+# distance_km = float(input("Enter the distance in kilometers: "))
 
-delivery_charges = None
+# delivery_charges = 0
 
-# Calculate packaging charges
-if 20 < order_amount <= 35:
-    packaging_charge_percentage = 0.10
-elif 35 < order_amount <= 50:
-    packaging_charge_percentage = 0.08
-elif order_amount > 50:
-    packaging_charge_percentage = 0.06
-else:
-    packaging_charge_percentage = 0
+# # Calculate packaging charges
+# if 20 < order_amount <= 35:
+#     packaging_charge_percentage = 0.10
+# elif 35 < order_amount <= 50:
+#     packaging_charge_percentage = 0.08
+# elif order_amount > 50:
+#     packaging_charge_percentage = 0.06
+# else:
+#     packaging_charge_percentage = 0
 
-packaging_charges = order_amount * packaging_charge_percentage
+# packaging_charges = order_amount * packaging_charge_percentage
 
-# Calculate delivery charges
-if 0 < distance_km <= 4:
-    delivery_charges = 3
-elif 4 < distance_km <= 8:
-    delivery_charges = 6
-elif 8 < distance_km <= 12:
-    delivery_charges = 10
-else:
-    delivery_charges = None
+# # Calculate delivery charges
+# if 0 < distance_km <= 4:
+#     delivery_charges = 3
+# elif 4 < distance_km <= 8:
+#     delivery_charges = 6
+# elif 8 < distance_km <= 12:
+#     delivery_charges = 10
+# else:
+#     delivery_charges = 0
 
-# Calculate total amount to be paid
-if delivery_charges is not None:
-    total_amount = order_amount + packaging_charges + delivery_charges
-    print("\nDelivery Details:"
-    "\nDelivery to: {}"
-    "\nDistance: {} km"
-    "\nDelivery charges: ${}"
-    "\nOrder Details:"
-    "\nOrder amount: ${}"
-    "\nPackaging charges: ${}"
-    "\nTotal amount to be paid (including delivery and packaging charges): ${}".format(full_address,
-                                                                                        distance_km,
-                                                                                        delivery_charges,
-                                                                                        order_amount,
-                                                                                        packaging_charges,
-                                                                                        total_amount))
-else:
-    print("No delivery can be done for a distance greater than 12 kilometers.")
+# # Calculate total amount to be paid
+# if delivery_charges > 0:
+#     total_amount = order_amount + packaging_charges + delivery_charges
+#     print("\nDelivery Details:"
+#     "\nDelivery to: ", full_address,
+#     "\nDistance: ", distance_km,"km"
+#     "\nDelivery charges: $",delivery_charges, 
+#     "\nOrder Details:"
+#     "\nOrder amount: $",order_amount,
+#     "\nPackaging charges: $",packaging_charges,
+#     "\nTotal amount to be paid (including delivery and packaging charges): $",total_amount)
+# else:
+#     print("No delivery can be done for a distance greater than 12 kilometers.")
 
 
-# """
-# 6. Write a program to calculate the total charges of a placed order at the restaurant. Additional
-# charges apply based on the order type selected from the options of:
-# 1- dine in: Additional service charges of 8% apply
-# 2- pick up: no additional charges
-# 3- delivery: additional delivery charges of 10% apply
+"""
+6. Write a program to calculate the total charges of a placed order at the restaurant. Additional
+charges apply based on the order type selected from the options of:
+1- dine in: Additional service charges of 8% apply
+2- pick up: no additional charges
+3- delivery: additional delivery charges of 10% apply
 
-# The program should ask the user to insert the order base cost in AUD and the order type (1 or 2 or 3), and then the program should output the total amount to be paid.
-# """
+The program should ask the user to insert the order base cost in AUD and the order type (1 or 2 or 3), and then the program should output the total amount to be paid.
+"""
 
 # # Input order details
 # order_base_cost = float(input("Enter the order base cost (in AUD): "))
@@ -308,7 +303,7 @@ else:
 #     # Calculate total charges
 #     total_charges = order_base_cost + order_base_cost * additional_charges_percentage
 #     # Output the result
-#     print(f"Total charges for the order: ${total_charges:.2f}")
+#     print("Total charges for the order: $", total_charges)
 
 # elif order_type == 2:  # pick up
 #     additional_charges_percentage = 0
@@ -316,7 +311,7 @@ else:
 #     # Calculate total charges
 #     total_charges = order_base_cost + order_base_cost * additional_charges_percentage
 #     # Output the result
-#     print(f"Total charges for the order: ${total_charges:.2f}")
+#     print("Total charges for the order: $",total_charges)
 
 # elif order_type == 3:  # delivery
 #     additional_charges_percentage = 0.10
@@ -324,20 +319,20 @@ else:
 #     # Calculate total charges
 #     total_charges = order_base_cost + order_base_cost * additional_charges_percentage
 #     # Output the result
-#     print(f"Total charges for the order: ${total_charges:.2f}")
+#     print("Total charges for the order: $",total_charges)
 
 # else:
 #     print("Invalid order type!")
     
-# """
-# 7. Write a temperature conversion program. The program should offer two forms of conversions:
-# 1- from Centigrade to Fahrenheit
-# 2-From Fahrenheit to Centigrade
-# The program should ask the user to insert the temperature value and then conversion option (1 or 2).
-# ••• The program should output the converted temperature.
-# Your program should print a warning message for invalid values of temperature.
-# Any Other option selected: Invalid Entry.
-# """
+"""
+7. Write a temperature conversion program. The program should offer two forms of conversions:
+1- from Centigrade to Fahrenheit
+2-From Fahrenheit to Centigrade
+The program should ask the user to insert the temperature value and then conversion option (1 or 2).
+••• The program should output the converted temperature.
+Your program should print a warning message for invalid values of temperature.
+Any Other option selected: Invalid Entry.
+"""
 
 # # Input temperature and conversion type
 # temperature = float(input("Enter the temperature value: "))
@@ -346,45 +341,54 @@ else:
 # # Perform the conversion based on the conversion type
 # if conversion_type == 1:
 #     converted_temperature = (temperature * 9/5) + 32
-#     print(f"{temperature} Celsius is equal to {converted_temperature:.2f} Fahrenheit.")
+#     print(temperature, "Centigrade is equal to " , converted_temperature, "Fahrenheit.")
 # elif conversion_type == 2:
 #     converted_temperature = (temperature - 32) * 5/9
-#     print(f"{temperature} Fahrenheit is equal to {converted_temperature:.2f} Celsius.")
+#     print(temperature, "Fahrenheit is equal to " , converted_temperature, "Centigrade.")
 # else:
 #     print("Invalid Entry!")
 
-# """
-# 8. Write a program to help the manager calculating the net monthly income of the employee after
-# the tax is deducted. Assume a fixed income tax of 18 %. The program should ask the manager to
-# insert the following input:
-# a) the position of the employee (chef, waiter, delivery or cleaner).
-# b) the number of monthly hours the employee worked.
-# If hours are entered in decimal format, the calculations will be executed by rounding the hours to the nearest positive value.
-# The pay rate is calculated as follows:
-# • Chef $30 Per hour,
-# • Waiter $28 Per hour,
-# • Delivery $25 Per hour,
-# • Cleaner $ 24 Per hour
-# Note: you should ensure a correct output regardless of the input case (upper case, lower case and more).
-# """
-
-# # Pay rates per hour for each position
-# pay_rates = {
-#     "chef": 30,
-#     "waiter": 28,
-#     "delivery": 25,
-#     "cleaner": 24
-# }
+"""
+8. Write a program to help the manager calculating the net monthly income of the employee after
+the tax is deducted. Assume a fixed income tax of 18 %. The program should ask the manager to
+insert the following input:
+a) the position of the employee (chef, waiter, delivery or cleaner).
+b) the number of monthly hours the employee worked.
+If hours are entered in decimal format, the calculations will be executed by rounding the hours to the nearest positive value.
+The pay rate is calculated as follows:
+• Chef $30 Per hour,
+• Waiter $28 Per hour,
+• Delivery $25 Per hour,
+• Cleaner $ 24 Per hour
+Note: you should ensure a correct output regardless of the input case (upper case, lower case and more).
+"""
 
 # # Input employee details
-# position = input("Enter the position of the employee (chef, waiter, delivery, or cleaner): ").lower()
+# position_number = int(input("Enter a number for the position of the employee:\n (1-chef, 2-waiter, 3-delivery, or 4-cleaner)\n"))
 # monthly_hours_worked = float(input("Enter the number of monthly hours the employee worked: "))
 
 # # Round the hours to the nearest positive value
-# rounded_hours_worked = monthly_hours_worked
+# rounded_hours_worked = round(monthly_hours_worked)
 
+# hourly_rate = 0
+# position_name = ""
 # # Calculate the gross monthly income
-# hourly_rate = pay_rates.get(position, 0)
+# if position_number == 1:
+#     hourly_rate = 30
+#     position_name = "Chef"
+# elif position_number == 2:
+#     hourly_rate = 28
+#     position_name = "Waiter"
+# elif position_number == 3:
+#     hourly_rate = 25
+#     position_name = "Delivery"
+# elif position_number == 4:
+#     hourly_rate = 24
+#     position_name = "Cleaner"
+# else:
+#     hourly_rate = 0
+#     position_name = "Invalid option"
+
 # gross_income = hourly_rate * rounded_hours_worked
 
 # # Calculate the income tax
@@ -395,33 +399,34 @@ else:
 # net_income = gross_income - income_tax
 
 # # Output the result
-# print(f"Position: {position.capitalize()}")
-# print(f"Monthly Hours Worked: {rounded_hours_worked}")
-# print(f"Gross Monthly Income: ${gross_income:.2f}")
-# print(f"Income Tax (18%): ${income_tax:.2f}")
-# print(f"Net Monthly Income: ${net_income:.2f}")
+# if hourly_rate > 0:
+#     print("Position:", position_name,"\n"
+#     "Monthly Hours Worked:", rounded_hours_worked,"\n"
+#     "Gross Monthly Income: $", gross_income,"\n"
+#     "Income Tax (18%): $", income_tax,"\n"
+#     "Net Monthly Income: $", net_income)
+# else:
+#     print(position_name)
 
-# finalList = [position.capitalize(),rounded_hours_worked,gross_income,income_tax,net_income]
-# print(finalList)
+"""
+9. Create a program that ask the user to enter user credential signing up a new account. The
+program should ask the user to insert the following:
+1. mobile number
+2. password
 
-# """
-# 9. Create a program that ask the user to enter user credential signing up a new account. The
-# program should ask the user to insert the following:
-# 1. mobile number
-# 2. password
-
-# The program should print the output “Valid credentials” if:
-# 1. the mobile number is having exactly 10 digits.
-# 2. the password has a minimum of 7 characters and maximum 11 characters.
-# 3. The password must contain at least one special character, either @ or $
-# 4. The password must end with a digit
-# Note: The program should print “invalid credentials” otherwise.
-# """
+The program should print the output “Valid credentials” if:
+1. the mobile number is having exactly 10 digits.
+2. the password has a minimum of 7 characters and maximum 11 characters.
+3. The password must contain at least one special character, either @ or $
+4. The password must end with a digit
+Note: The program should print “invalid credentials” otherwise.
+"""
 
 # # Input user credentials
 # mobile_number = input("Enter your mobile number: ")
 # password = input("Enter your password: ")
-# digits = (1,2,3,4,5,6,7,8,9,0)
+# digits = ("1","2","3","4","5","6","7","8","9","0")
+# special_chars = ("@","$")
 
 # # Check mobile number
 # if len(mobile_number) != 10:
@@ -432,10 +437,10 @@ else:
 #         print("Invalid credentials")
 #     else:
 #         if not password[-1] in digits:
+#             print(password[-1])
 #             print("Invalid credentials")
 #         else:
 #             # Check for at least one special character and ending with a digit
-#             special_chars = ('@','$')
 #             if not special_chars[0] in password and not special_chars[1] in password:
 #                 print("Invalid credentials")
 #             else:
