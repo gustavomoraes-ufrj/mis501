@@ -19,7 +19,7 @@ confirm to the customer with a greeting message by displaying all the details if
 than 21 years of age.
 """
 
-# # Data inputs
+# # Data inputsupgr
 # customer_name = input("Please, enter customer name: ")
 # customer_birth = int(input("Year of birth: "))
 # customer_city = input("Current city: ")
